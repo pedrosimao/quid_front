@@ -105,3 +105,6 @@ dist
 
 # Jetbrains Editors
 .idea
+
+# Mac OS
+.DS_Store
