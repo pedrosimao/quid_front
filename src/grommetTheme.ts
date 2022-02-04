@@ -1,25 +1,47 @@
 import { grommet } from 'grommet/themes'
-import { deepMerge } from 'grommet/utils'
+import {
+  deepMerge,
+  // normalizeColor,
+} from 'grommet/utils'
+// import { getNormalizedColor } from 'grommet/utils/color'
+// import { css } from 'styled-components'
 
 export const grommetTheme = deepMerge(grommet, {
-  name: 'aruba',
+  name: 'quid-theme',
   rounding: 8,
   spacing: 24,
   defaultMode: 'light',
   global: {
     colors: {
-      brand: '#ED6F00',
+      brand: {
+        dark: '#5700ed',
+        light: '#5700ed',
+      },
+      gradient: {
+        // light: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        light:
+          'linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%)',
+        dark: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      },
+      'gradient-background': {
+        dark: 'linear-gradient(180deg, rgb(32 34 49) 5%, rgb(22 24 29) 15%, #000 100%)',
+        light: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      },
       background: {
         dark: '#111111',
+        // dark: 'linear-gradient(#e66465, #9198e5)',
+        // dark: css`linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(50.559% 99.609% 91.772%) 6.25%, rgb(50.473% 99.613% 92.974%) 12.5%, rgb(50.328% 99.62% 94.988%) 18.75%, rgb(50.126% 99.629% 97.828%) 25%, rgb(49.865% 97.767% 99.641%) 31.25%, rgb(49.547% 93.235% 99.656%) 37.5%, rgb(49.171% 87.801% 99.674%) 43.75%, rgb(48.736% 81.427% 99.695%) 50%, rgb(48.243% 74.067% 99.72%) 56.25%, rgb(47.691% 65.67% 99.748%) 62.5%, rgb(47.08% 56.177% 99.779%) 68.75%, rgb(47.297% 46.411% 99.815%) 75%, rgb(57.721% 45.682% 99.854%) 81.25%, rgb(69.335% 44.894% 99.898%) 87.5%, rgb(82.221% 44.045% 99.947%) 93.75%, rgb(96.471% 43.137% 100%) 100% )`,
         light: '#FFFFFF',
         // dark: `linear-gradient(90deg, rgb(26.667% 26.667% 26.667%) 0%, rgb(21.973% 21.973% 21.973%) 6.25%, rgb(17.865% 17.865% 17.865%) 12.5%, rgb(14.303% 14.303% 14.303%) 18.75%, rgb(11.25% 11.25% 11.25%) 25%, rgb(8.665% 8.665% 8.665%) 31.25%, rgb(6.51% 6.51% 6.51%) 37.5%, rgb(4.746% 4.746% 4.746%) 43.75%, rgb(3.333% 3.333% 3.333%) 50%, rgb(2.233% 2.233% 2.233%) 56.25%, rgb(1.406% 1.406% 1.406%) 62.5%, rgb(0.814% 0.814% 0.814%) 68.75%, rgb(0.417% 0.417% 0.417%) 75%, rgb(0.176% 0.176% 0.176%) 81.25%, rgb(0.052% 0.052% 0.052%) 87.5%, rgb(0.007% 0.007% 0.007%) 93.75%, rgb(0% 0% 0%) 100% )`,
       },
       'background-back': {
-        dark: '#222222',
+        // dark: '#222222',
+        dark: 'rgb(22 21 34)',
         light: '#EEEEEE',
       },
       'background-front': {
-        dark: '#444444',
+        // dark: '#2e2e2e',
+        dark: 'rgb(32 34 49)',
         light: '#FFFFFF',
       },
       'background-contrast': {
@@ -43,13 +65,15 @@ export const grommetTheme = deepMerge(grommet, {
         light: '#666666',
       },
       border: {
-        dark: 'linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(50.559% 99.609% 91.772%) 6.25%, rgb(50.473% 99.613% 92.974%) 12.5%, rgb(50.328% 99.62% 94.988%) 18.75%, rgb(50.126% 99.629% 97.828%) 25%, rgb(49.865% 97.767% 99.641%) 31.25%, rgb(49.547% 93.235% 99.656%) 37.5%, rgb(49.171% 87.801% 99.674%) 43.75%, rgb(48.736% 81.427% 99.695%) 50%, rgb(48.243% 74.067% 99.72%) 56.25%, rgb(47.691% 65.67% 99.748%) 62.5%, rgb(47.08% 56.177% 99.779%) 68.75%, rgb(47.297% 46.411% 99.815%) 75%, rgb(57.721% 45.682% 99.854%) 81.25%, rgb(69.335% 44.894% 99.898%) 87.5%, rgb(82.221% 44.045% 99.947%) 93.75%, rgb(96.471% 43.137% 100%) 100% )',
-        light:
-          'linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(50.559% 99.609% 91.772%) 6.25%, rgb(50.473% 99.613% 92.974%) 12.5%, rgb(50.328% 99.62% 94.988%) 18.75%, rgb(50.126% 99.629% 97.828%) 25%, rgb(49.865% 97.767% 99.641%) 31.25%, rgb(49.547% 93.235% 99.656%) 37.5%, rgb(49.171% 87.801% 99.674%) 43.75%, rgb(48.736% 81.427% 99.695%) 50%, rgb(48.243% 74.067% 99.72%) 56.25%, rgb(47.691% 65.67% 99.748%) 62.5%, rgb(47.08% 56.177% 99.779%) 68.75%, rgb(47.297% 46.411% 99.815%) 75%, rgb(57.721% 45.682% 99.854%) 81.25%, rgb(69.335% 44.894% 99.898%) 87.5%, rgb(82.221% 44.045% 99.947%) 93.75%, rgb(96.471% 43.137% 100%) 100% )',
+        dark: 'text-xweak',
+        light: 'text-xweak',
+        // dark: css`linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(50.559% 99.609% 91.772%) 6.25%, rgb(50.473% 99.613% 92.974%) 12.5%, rgb(50.328% 99.62% 94.988%) 18.75%, rgb(50.126% 99.629% 97.828%) 25%, rgb(49.865% 97.767% 99.641%) 31.25%, rgb(49.547% 93.235% 99.656%) 37.5%, rgb(49.171% 87.801% 99.674%) 43.75%, rgb(48.736% 81.427% 99.695%) 50%, rgb(48.243% 74.067% 99.72%) 56.25%, rgb(47.691% 65.67% 99.748%) 62.5%, rgb(47.08% 56.177% 99.779%) 68.75%, rgb(47.297% 46.411% 99.815%) 75%, rgb(57.721% 45.682% 99.854%) 81.25%, rgb(69.335% 44.894% 99.898%) 87.5%, rgb(82.221% 44.045% 99.947%) 93.75%, rgb(96.471% 43.137% 100%) 100% )`,
+        // light:
+        //   'linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(50.559% 99.609% 91.772%) 6.25%, rgb(50.473% 99.613% 92.974%) 12.5%, rgb(50.328% 99.62% 94.988%) 18.75%, rgb(50.126% 99.629% 97.828%) 25%, rgb(49.865% 97.767% 99.641%) 31.25%, rgb(49.547% 93.235% 99.656%) 37.5%, rgb(49.171% 87.801% 99.674%) 43.75%, rgb(48.736% 81.427% 99.695%) 50%, rgb(48.243% 74.067% 99.72%) 56.25%, rgb(47.691% 65.67% 99.748%) 62.5%, rgb(47.08% 56.177% 99.779%) 68.75%, rgb(47.297% 46.411% 99.815%) 75%, rgb(57.721% 45.682% 99.854%) 81.25%, rgb(69.335% 44.894% 99.898%) 87.5%, rgb(82.221% 44.045% 99.947%) 93.75%, rgb(96.471% 43.137% 100%) 100% )',
       },
       control: {
-        light: '#ED6F00',
-        dark: '#EF8B27',
+        light: '#4000bb',
+        dark: '#bb94ff',
       },
       'active-background': {
         light: 'background',
@@ -109,6 +133,7 @@ export const grommetTheme = deepMerge(grommet, {
       color: 'selected-text',
     },
     borderSize: {
+      none: '0px',
       xsmall: '1px',
       small: '2px',
       medium: '4px',
@@ -338,14 +363,45 @@ export const grommetTheme = deepMerge(grommet, {
   },
   scale: 0.3,
   button: {
+    size: {
+      large: {
+        border: {
+          width: '0px',
+          radius: '8px',
+        },
+      },
+    },
     border: {
-      width: '2px',
-      radius: '8px',
+      width: '0px',
+      radius: '2px',
     },
     padding: {
       vertical: '4px',
       horizontal: '22px',
     },
+    default: {},
+    primary: {
+      background: 'brand',
+      // background: 'gradient',
+      color: 'text',
+    },
+    hover: {
+      default: {},
+      primary: {
+        background: 'control',
+        // color: 'text-weak',
+      },
+    },
+    // @ts-ignore
+    // extend: ({ theme }) =>
+    //   css`
+    //     transition: all 0.2s;
+    //     :hover {
+    //       transition: all 0.2s;
+    //       // background: ${normalizeColor('gradient', theme)};
+    //     }
+    //     //background-color: blue;
+    //   `,
   },
   calendar: {
     small: {
@@ -478,6 +534,7 @@ export const grommetTheme = deepMerge(grommet, {
       size: '19px',
       height: '25px',
       maxWidth: '461px',
+      // weight: '100',
     },
     xlarge: {
       size: '20px',
@@ -492,6 +549,7 @@ export const grommetTheme = deepMerge(grommet, {
   },
   anchor: {
     color: 'text',
+    hover: { textDecoration: 'none', fontWeight: 'bold' },
   },
   formField: {
     border: {
@@ -545,26 +603,43 @@ export const grommetTheme = deepMerge(grommet, {
     },
     round: '8px',
   },
+  tab: {
+    color: 'text-weak',
+    border: {
+      side: 'bottom',
+      size: 'xsmall',
+      color: {
+        dark: 'none',
+        light: 'brand',
+      },
+      active: {
+        color: {
+          dark: 'text-weak',
+          light: 'text-weak',
+        },
+      },
+      hover: {
+        color: {
+          dark: 'white',
+          light: 'black',
+        },
+        // extend: undefined,
+      },
+    },
+  },
+  round: '0px',
 
-  // global: {
-  //   breakpoints: {
-  //     xsmall: {
-  //       value: 400,
-  //     },
-  //   },
-  // },
-  // heading: {
-  //   extend: () => `margin-top: 12px; margin-bottom: 12px;`,
-  // },
-  // paragraph: {
-  //   extend: () => `font-weight: 300; margin-top: 0;`,
-  //   xxlarge: {
-  //     size: '28px',
-  //   },
-  // },
   // textInput: {
   //   placeholder: {
-  //     extend: () => `color: #44444`,
+  //     color: 'text-weak',
   //   },
+  //   // color: 'text-weak',
+  //   // extend: () =>
+  //   //   css`
+  //   //     background-color: #555;
+  //   //   `,
+  //   // placeholder: {
+  //   //   extend: () => `color: #44444`,
+  //   // },
   // },
 })

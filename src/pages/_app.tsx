@@ -1,9 +1,11 @@
 // import '../styles/globals.css'
 import * as React from 'react'
-import { Grommet } from 'grommet'
+import { Grommet, Box } from 'grommet'
 import styled from 'styled-components'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
+
+import 'src/styles/globals.css'
 
 import { NearProvider } from 'src/near/nearContext'
 import { grommetTheme } from 'src/grommetTheme'
@@ -18,14 +20,14 @@ const MainContainer = styled.div`
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Grommet theme={grommetTheme} themeMode="dark" full>
+      <Grommet theme={grommetTheme} full themeMode="dark">
         <NearProvider>
-          <>
+          <Box background="gradient-background">
             <Navbar />
             <MainContainer>
               <Component {...pageProps} />
             </MainContainer>
-          </>
+          </Box>
         </NearProvider>
       </Grommet>
     </Provider>

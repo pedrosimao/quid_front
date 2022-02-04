@@ -1,8 +1,14 @@
 import * as React from 'react'
 import Head from 'next/head'
-import { Box, Text, Tabs, Tab } from 'grommet'
+import { Box, Text, Tabs, Tab, TextInput, Button } from 'grommet'
+import { utils } from 'near-api-js'
+
+import { NearContext } from 'src/near/nearContext'
 
 const Stake: React.FC = () => {
+  const [depositAmnt, setDepositAmnt] = React.useState<string | null>(null)
+  const { contract } = React.useContext(NearContext)
+
   return (
     <>
       <Head>
@@ -27,18 +33,87 @@ const Stake: React.FC = () => {
           Lend your Nears or qUids
         </Text>
         <Box
-          width="600px"
+          width="500px"
           height="300px"
-          background={{ color: 'background-back' }}
-          border
-          animation="slideDown"
+          background="background-front"
+          // animation="slideDown"
           gap="small"
           pad="small"
-          round="medium"
+          round="small"
+          direction="column"
+          margin="0 auto"
         >
-          <Tabs>
+          <Tabs justify="center">
             <Tab title="Deposit">
-              <Box pad="medium">Coming soon...</Box>
+              <br />
+              <Box direction="column">
+                <Box
+                  border={{ size: 'xsmall' }}
+                  width="90%"
+                  flex
+                  direction="column"
+                  round="small"
+                  pad="small"
+                  // background="gradient-background"
+                  background="background-back"
+                  margin="0 auto"
+                >
+                  <TextInput
+                    plain={true}
+                    focusIndicator={false}
+                    type="number"
+                    name="deposit"
+                    step="0.1"
+                    placeholder="0.000"
+                    size="xxlarge"
+                    textAlign="end"
+                    min={0}
+                    value={String(depositAmnt)}
+                    onChange={(e) => {
+                      setDepositAmnt(e?.target?.value)
+                    }}
+                  />
+                  <Text alignSelf="end" margin="0 10px 0 0">
+                    Near
+                  </Text>
+                </Box>
+                <br />
+                <Button
+                  primary
+                  disabled={!depositAmnt}
+                  // color="gradient"
+                  label="Confirm"
+                  alignSelf="center"
+                  size="large"
+                  style={{
+                    width: '90%',
+                    margin: '0 auto',
+                    textAlign: 'center',
+                  }}
+                  onClick={async () => {
+                    if (depositAmnt) {
+                      contract?.deposit(
+                        {
+                          amount: utils.format.parseNearAmount(depositAmnt),
+                          live: false,
+                        },
+                        '300000000000000',
+                        utils.format.parseNearAmount(depositAmnt) || undefined
+                      )
+                      // contract?.borrow(
+                      //   {
+                      //     amount: utils.format.parseNearAmount(depositAmnt),
+                      //     short: false,
+                      //   },
+                      //   '300000000000000',
+                      //   utils.format.parseNearAmount(depositAmnt) ||
+                      //     utils.format.parseNearAmount('1') ||
+                      //     undefined
+                      // )
+                    }
+                  }}
+                />
+              </Box>
             </Tab>
             <Tab
               title="Withdraw"

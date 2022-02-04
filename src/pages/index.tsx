@@ -33,9 +33,15 @@ const Home: NextPage = () => {
             height={200}
           />
           <br />
-          <Text as="h1" textAlign="center" size="4xl" weight={200}>
+          <Text
+            as="h1"
+            textAlign="center"
+            size="4xl"
+            weight="lighter"
+            color="text-weak"
+          >
             Stable Coin <br />
-            on Near Protocol
+            <strong>on Near Protocol</strong>
           </Text>
         </Box>
       </MainContainer>

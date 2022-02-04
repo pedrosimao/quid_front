@@ -1,5 +1,5 @@
 export const CONTRACT_NAME =
-  process.env.CONTRACT_NAME || 'dev-1636228513801-61777166297956'
+  process.env.CONTRACT_NAME || 'dev-1642588138566-86232214910457'
 
 export enum NETWORK_TYPE {
   PRODUCTION = 'production',
