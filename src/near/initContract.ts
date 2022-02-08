@@ -1,52 +1,6 @@
 import * as nearAPI from 'near-api-js'
 import { getConfig } from './config'
-
-interface ContractType extends nearAPI.Contract {
-  deposit: (
-    { amount: string, live: boolean }: Record<string, unknown>,
-    gas?: string,
-    deposit?: string
-  ) => void
-  borrow: (
-    { amount: string, short: boolean }: Record<string, unknown>,
-    gas?: string,
-    deposit?: string
-  ) => void
-  new: (
-    { owner_id: string }: Record<string, unknown>,
-    gas?: string,
-    deposit?: string
-  ) => void
-  /*
-   * This function exists to allow withdraw of deposits, either from
-   * a user's SolvencyPool deposit, or LivePool (borrowing) position
-   * Hence, the first boolean parameter (for indicating which pool),
-   * last boolean parameter indicates the currency being withdrawn.
-   */
-  renege: (
-    // @ts-ignore Todo: find a solution for this weird duplicate alert
-    { amount: string, sp: boolean, qd: boolean }: Record<string, unknown>,
-    gas?: string,
-    deposit?: string
-  ) => void
-  /*
-   * Close out caller's borrowing position by paying
-   * off all pledge's own debt with own collateral
-   */
-  fold: (
-    { short: boolean }: Record<string, unknown>,
-    gas?: string,
-    deposit?: string
-  ) => void
-  /*
-   * Call this function to attempt liquidating a single Pledge
-   */
-  clip: (
-    { account: string }: Record<string, unknown>,
-    gas?: string,
-    deposit?: string
-  ) => void
-}
+import { ContractType } from 'src/near/types'
 
 export interface NearContextType {
   contract: ContractType | null
@@ -96,13 +50,9 @@ export const initContract = async (): Promise<NearContextType> => {
     nearConfig.contractName,
     {
       // View methods are read-only – they don't modify the state, but usually return some value
-      viewMethods: ['get_pledge'],
+      viewMethods: ['get_pledge', 'get_pool_stats'],
       // Change methods can modify the state, but you don't receive the returned value when called
-      changeMethods: ['renege', 'borrow', 'deposit', 'fold', 'clip', 'new'],
-      // Sender is the account ID to initialize transactions.
-      // getAccountId() will return empty string if user is still unauthorized
-      // Todo: check if sender is needed
-      // sender: walletConnection.getAccountId(),
+      changeMethods: ['renege', 'borrow', 'deposit', 'fold', 'new'],
     }
   )
   // @ts-ignore - Todo: verify whats the problem with Contract ts type
