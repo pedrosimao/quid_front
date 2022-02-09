@@ -1,10 +1,12 @@
 import * as React from 'react'
 import Head from 'next/head'
 import { utils } from 'near-api-js'
-import { Box, Text, Tabs, Tab, TextInput, Button } from 'grommet'
+import { Box, Text, Tabs, Tab, Button } from 'grommet'
 
 import { NearContext } from 'src/near/nearContext'
 import { PledgeType, PoolStatsType } from 'src/near/types'
+
+import { CryptoInput } from 'src/components/CryptoInput'
 
 const Stake: React.FC = () => {
   const { contract, currentUser } = React.useContext(NearContext)
@@ -27,7 +29,7 @@ const Stake: React.FC = () => {
   React.useEffect(() => {
     getNewPledgedAmnt()
     getStats()
-  }, [contract])
+  }, [contract, getNewPledgedAmnt, getStats])
 
   return (
     <>
@@ -68,36 +70,15 @@ const Stake: React.FC = () => {
             <Tab title="Deposit">
               <br />
               <Box direction="column">
-                <Box
-                  border={{ size: 'xsmall' }}
-                  width="90%"
-                  flex
-                  direction="column"
-                  round="small"
-                  pad="small"
-                  // background="gradient-background"
-                  background="background-back"
-                  margin="0 auto"
-                >
-                  <TextInput
-                    plain={true}
-                    focusIndicator={false}
-                    type="number"
-                    name="deposit"
-                    step="0.1"
-                    placeholder="0.000"
-                    size="xxlarge"
-                    textAlign="end"
-                    min={0}
-                    value={String(depositAmnt)}
-                    onChange={(e) => {
-                      setDepositAmnt(e?.target?.value)
-                    }}
-                  />
-                  <Text alignSelf="end" margin="0 10px 0 0">
-                    Near
-                  </Text>
-                </Box>
+                <CryptoInput
+                  value={String(depositAmnt)}
+                  maxValue={
+                    currentUser?.balance
+                      ? utils.format.formatNearAmount(currentUser?.balance)
+                      : undefined
+                  }
+                  onChange={setDepositAmnt}
+                />
                 <br />
                 <Button
                   primary
@@ -132,36 +113,15 @@ const Stake: React.FC = () => {
             >
               <br />
               <Box direction="column">
-                <Box
-                  border={{ size: 'xsmall' }}
-                  width="90%"
-                  flex
-                  direction="column"
-                  round="small"
-                  pad="small"
-                  // background="gradient-background"
-                  background="background-back"
-                  margin="0 auto"
-                >
-                  <TextInput
-                    plain={true}
-                    focusIndicator={false}
-                    type="number"
-                    name="withdraw"
-                    step="0.1"
-                    placeholder="0.000"
-                    size="xxlarge"
-                    textAlign="end"
-                    min={0}
-                    value={String(withdrawAmnt)}
-                    onChange={(e) => {
-                      setWithdrawAmnt(e?.target?.value)
-                    }}
-                  />
-                  <Text alignSelf="end" margin="0 10px 0 0">
-                    Near
-                  </Text>
-                </Box>
+                <CryptoInput
+                  maxValue={
+                    currentUser?.balance
+                      ? utils.format.formatNearAmount(pledged?.near_sp || '0')
+                      : undefined
+                  }
+                  value={String(withdrawAmnt)}
+                  onChange={setWithdrawAmnt}
+                />
                 <br />
                 <Button
                   primary
@@ -170,6 +130,7 @@ const Stake: React.FC = () => {
                   label="Confirm"
                   alignSelf="center"
                   size="large"
+                  // fill
                   style={{
                     width: '90%',
                     margin: '0 auto',
@@ -196,28 +157,44 @@ const Stake: React.FC = () => {
         {/*  Stats Box */}
         <Box
           width={{ max: '500px', width: '90%' }}
-          background="gradient"
+          background="background-back"
           // animation="slideDown"
-          gap="small"
+          gap="xxsmall"
           pad="medium"
           round="small"
           direction="column"
           margin="large"
         >
-          <Box flex direction="row" justify="between" gap="xsmall">
-            <Text as="h2" size="xlarge">
-              Total Stake
+          <Box flex direction="row" justify="between" gap="xxsmall">
+            <Text as="h2" size="xlarge" margin="xxsmall">
+              Pool Near
             </Text>
-            <Text as="h3" size="medium" weight="lighter">
+            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
               {utils.format.formatNearAmount(stats?.blood_debit || '0')}
             </Text>
           </Box>
-          <Box flex direction="row" justify="between">
-            <Text as="h2" size="xlarge" weight="lighter">
-              My Staked
+          <Box flex direction="row" justify="between" gap="xxsmall">
+            <Text as="h2" size="xlarge" weight="lighter" margin="xxsmall">
+              My Staked Near
             </Text>
-            <Text as="h3" size="medium" weight="lighter">
+            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
               {utils.format.formatNearAmount(pledged?.near_sp || '0')}
+            </Text>
+          </Box>
+          <Box flex direction="row" justify="between" gap="xxsmall">
+            <Text as="h2" size="xlarge" margin="xxsmall">
+              Pool qUid
+            </Text>
+            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
+              {utils.format.formatNearAmount(stats?.blood_credit || '0')}
+            </Text>
+          </Box>
+          <Box flex direction="row" justify="between" gap="xxsmall">
+            <Text as="h2" size="xlarge" weight="lighter" margin="xxsmall">
+              My Staked Quid
+            </Text>
+            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
+              {utils.format.formatNearAmount(pledged?.quid_sp || '0')}
             </Text>
           </Box>
         </Box>
