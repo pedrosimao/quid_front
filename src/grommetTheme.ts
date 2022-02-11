@@ -363,45 +363,51 @@ export const grommetTheme = deepMerge(grommet, {
   },
   scale: 0.3,
   button: {
+    border: {
+      radius: '8px',
+    },
+    // default: {
+    //   background: {
+    //     color: 'blue',
+    //   },
+    // },
+    // primary: {
+    //   background: {
+    //     color: 'gradient',
+    //   },
+    // },
     size: {
       large: {
+        // primary: {
+        //   background: {
+        //     color: 'gradient',
+        //   },
+        // },
         border: {
           width: '0px',
           radius: '8px',
         },
       },
-    },
-    border: {
-      width: '0px',
-      radius: '2px',
-    },
-    padding: {
-      vertical: '4px',
-      horizontal: '22px',
-    },
-    default: {},
-    primary: {
-      background: 'brand',
-      // background: 'gradient',
-      color: 'text',
-    },
-    hover: {
-      default: {},
-      primary: {
-        background: 'control',
-        // color: 'text-weak',
+      medium: {
+        border: {
+          width: '0px',
+          radius: '8px',
+        },
+      },
+      small: {
+        font: {
+          size: '9px',
+        },
+        border: {
+          width: '0px',
+          radius: '8px',
+        },
+        pad: {
+          horizontal: '10px',
+          vertical: '2px',
+        },
       },
     },
-    // @ts-ignore
-    // extend: ({ theme }) =>
-    //   css`
-    //     transition: all 0.2s;
-    //     :hover {
-    //       transition: all 0.2s;
-    //       // background: ${normalizeColor('gradient', theme)};
-    //     }
-    //     //background-color: blue;
-    //   `,
   },
   calendar: {
     small: {
@@ -641,5 +647,41 @@ export const grommetTheme = deepMerge(grommet, {
   //   // placeholder: {
   //   //   extend: () => `color: #44444`,
   //   // },
+  // },
+
+  /*
+  ./. Globals
+   */
+  // border: {
+  //   width: '0px',
+  //   radius: '8px',
+  // },
+  // padding: {
+  //   vertical: '4px',
+  //   horizontal: '22px',
+  // },
+  // default: {},
+  // primary: {
+  //   background: 'brand',
+  //   // background: 'gradient',
+  //   color: 'text',
+  // },
+  // hover: {
+  //   default: {},
+  //   primary: {
+  //     background: '#fff',
+  //     color: 'text-weak',
+  //   },
+  // },
+  // @ts-ignore
+  // extend: ({ theme }) =>
+  //   css`
+  //     transition: all 0.2s;
+  //     :hover {
+  //       transition: all 0.2s;
+  //       // background: ${normalizeColor('gradient', theme)};
+  //     }
+  //     //background-color: blue;
+  //   `,
   // },
 })

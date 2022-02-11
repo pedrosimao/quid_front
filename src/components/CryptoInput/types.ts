@@ -1,5 +1,5 @@
 export interface CryptoInputPropsType {
-  value: string
+  value?: string
   onChange: (value: string) => void
   onChangeCurrency?: (e: string) => void
   maxValue?: string

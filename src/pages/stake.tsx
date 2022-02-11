@@ -10,10 +10,19 @@ import { CryptoInput } from 'src/components/CryptoInput'
 
 const Stake: React.FC = () => {
   const { contract, currentUser } = React.useContext(NearContext)
-  const [depositAmnt, setDepositAmnt] = React.useState<string | null>(null)
-  const [withdrawAmnt, setWithdrawAmnt] = React.useState<string | null>(null)
+  const [depositAmnt, setDepositAmnt] = React.useState<string | undefined>()
+  const [withdrawAmnt, setWithdrawAmnt] = React.useState<string | undefined>()
+  const [isQuid, setIsQuid] = React.useState<boolean>(false)
   const [pledged, setPledged] = React.useState<PledgeType | undefined>()
   const [stats, setStats] = React.useState<PoolStatsType | undefined>()
+
+  const currentBalance = isQuid
+    ? utils.format.formatNearAmount(pledged?.credit || '0')
+    : utils.format.formatNearAmount(currentUser?.balance || '0')
+
+  const currentSpBalance = isQuid
+    ? utils.format.formatNearAmount(pledged?.quid_sp || '0')
+    : utils.format.formatNearAmount(pledged?.near_sp || '0')
 
   const getNewPledgedAmnt = async () => {
     const newPledges = await contract?.get_pledge({
@@ -29,7 +38,7 @@ const Stake: React.FC = () => {
   React.useEffect(() => {
     getNewPledgedAmnt()
     getStats()
-  }, [contract, getNewPledgedAmnt, getStats])
+  }, [contract])
 
   return (
     <>
@@ -72,12 +81,9 @@ const Stake: React.FC = () => {
               <Box direction="column">
                 <CryptoInput
                   value={String(depositAmnt)}
-                  maxValue={
-                    currentUser?.balance
-                      ? utils.format.formatNearAmount(currentUser?.balance)
-                      : undefined
-                  }
+                  maxValue={currentBalance}
                   onChange={setDepositAmnt}
+                  onChangeCurrency={() => setIsQuid(!isQuid)}
                 />
                 <br />
                 <Button
@@ -114,13 +120,10 @@ const Stake: React.FC = () => {
               <br />
               <Box direction="column">
                 <CryptoInput
-                  maxValue={
-                    currentUser?.balance
-                      ? utils.format.formatNearAmount(pledged?.near_sp || '0')
-                      : undefined
-                  }
+                  maxValue={currentSpBalance}
                   value={String(withdrawAmnt)}
                   onChange={setWithdrawAmnt}
+                  onChangeCurrency={() => setIsQuid(!isQuid)}
                 />
                 <br />
                 <Button

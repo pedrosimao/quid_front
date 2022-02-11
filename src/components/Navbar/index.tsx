@@ -133,7 +133,7 @@ export const Navbar: React.FC = () => {
                 >
                   <Text size="xsmall" weight={200} alignSelf="center">
                     {Number(
-                      utils.format.formatNearAmount(currentUser?.balance)
+                      utils.format.formatNearAmount(currentUser?.balance || '0')
                     ).toFixed(2)}
                   </Text>
                 </Box>
