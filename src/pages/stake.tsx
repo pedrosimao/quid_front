@@ -7,6 +7,7 @@ import { NearContext } from 'src/near/nearContext'
 import { PledgeType, PoolStatsType } from 'src/near/types'
 
 import { CryptoInput } from 'src/components/CryptoInput'
+import { useGetNearQuoteQuery } from 'src/redux/api/nearQuote'
 
 const Stake: React.FC = () => {
   const { contract, currentUser } = React.useContext(NearContext)
@@ -15,6 +16,9 @@ const Stake: React.FC = () => {
   const [isQuid, setIsQuid] = React.useState<boolean>(false)
   const [pledged, setPledged] = React.useState<PledgeType | undefined>()
   const [stats, setStats] = React.useState<PoolStatsType | undefined>()
+  const { data: nearQuote } = useGetNearQuoteQuery(undefined, {
+    pollingInterval: 30000, // set to 30 seconds
+  })
 
   const currentBalance = isQuid
     ? utils.format.formatNearAmount(pledged?.credit || '0')
@@ -83,6 +87,7 @@ const Stake: React.FC = () => {
                   value={String(depositAmnt)}
                   maxValue={currentBalance}
                   onChange={setDepositAmnt}
+                  currencyQuote={nearQuote}
                   onChangeCurrency={() => setIsQuid(!isQuid)}
                 />
                 <br />
@@ -105,7 +110,7 @@ const Stake: React.FC = () => {
                           qd_amt: '0',
                           live: false,
                         },
-                        '300000000000000',
+                        undefined,
                         utils.format.parseNearAmount(depositAmnt) || undefined
                       )
                     }
@@ -122,6 +127,7 @@ const Stake: React.FC = () => {
                 <CryptoInput
                   maxValue={currentSpBalance}
                   value={String(withdrawAmnt)}
+                  currencyQuote={nearQuote}
                   onChange={setWithdrawAmnt}
                   onChangeCurrency={() => setIsQuid(!isQuid)}
                 />
@@ -147,7 +153,7 @@ const Stake: React.FC = () => {
                           sp: true,
                           qd: false,
                         },
-                        '300000000000000'
+                        undefined
                         // utils.format.parseNearAmount('0.00001') || undefined
                       )
                     }

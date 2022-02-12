@@ -3,6 +3,7 @@ export interface CryptoInputPropsType {
   onChange: (value: string) => void
   onChangeCurrency?: (e: string) => void
   maxValue?: string
+  currencyQuote?: number
 }
 
 export enum CurrencyTypeEnum {

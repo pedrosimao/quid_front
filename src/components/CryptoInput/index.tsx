@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Box, Text, TextInput, Button } from 'grommet'
 
-import { fetchFiatValue } from 'src/components/CryptoInput/utils'
 import * as t from './types'
 
 export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
   value,
   maxValue,
+  currencyQuote,
   onChange,
   onChangeCurrency,
 }) => {
@@ -16,18 +16,21 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
   const [fiatValue, setFiatValue] = React.useState<number>(0)
   const isNear = currency === t.CurrencyTypeEnum.NEAR
 
-  const updateFiatValues = async () => {
-    const newFiatValue = isNear ? await fetchFiatValue() : 1
-    const newTotalFiatValue = newFiatValue * Number(value)
-    setFiatValue(newTotalFiatValue)
+  const updateFiatValues = () => {
+    if (currencyQuote && value) {
+      const newFiatValue = isNear ? currencyQuote : 1
+      const newTotalFiatValue = newFiatValue * Number(value)
+      setFiatValue(newTotalFiatValue)
+    }
   }
 
   // Todo: make a redux value for it, updated every X minutes
   React.useEffect(() => {
-    if (value) {
+    if (value && currencyQuote) {
       updateFiatValues()
     }
-  }, [value, isNear])
+  }, [value, currencyQuote, isNear])
+
   return (
     <>
       {maxValue ? (
@@ -113,7 +116,9 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
               color="text-weak"
               style={{ marginLeft: 10, width: '100%', minHeight: 24 }}
             >
-              {fiatValue ? ` ~${fiatValue.toFixed(2)} usd` : null}
+              {fiatValue && Number(value)
+                ? ` ~${fiatValue.toFixed(2)} usd`
+                : null}
             </Text>
           </Box>
           <div />
