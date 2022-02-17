@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Head from 'next/head'
 import { utils } from 'near-api-js'
-import { Box, Text, Tabs, Tab, Button } from 'grommet'
+import { Box, Text, Tabs, Tab, Button, Spinner } from 'grommet'
 
 import { NearContext } from 'src/near/nearContext'
 import { useGetNearQuoteQuery } from 'src/redux/api/nearQuote'
@@ -14,6 +14,8 @@ const Stake: React.FC = () => {
   const { contract } = React.useContext(NearContext)
   const [depositAmnt, setDepositAmnt] = React.useState<string | undefined>()
   const [withdrawAmnt, setWithdrawAmnt] = React.useState<string | undefined>()
+  const [isWithdrawing, setIsWithdrawing] = React.useState(false)
+  const [isDepositing, setIsDepositing] = React.useState(false)
   const [isQuid, setIsQuid] = React.useState<boolean>(false)
   const { data: nearQuote } = useGetNearQuoteQuery(undefined, {
     pollingInterval: 60000, // set to 60 seconds
@@ -36,6 +38,51 @@ const Stake: React.FC = () => {
   const refetchAll = () => {
     refetchQuidBalance()
     refetchStats()
+  }
+
+  const handleWithdraw = async () => {
+    if (withdrawAmnt) {
+      try {
+        setIsWithdrawing(true)
+        await contract?.renege(
+          {
+            amount: utils.format.parseNearAmount(withdrawAmnt),
+            sp: true,
+            qd: isQuid,
+            live: false,
+          },
+          undefined
+        )
+        refetchAll()
+        // Todo: deal with errors
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setIsWithdrawing(false)
+      }
+    }
+  }
+
+  const handleDeposit = async () => {
+    if (depositAmnt) {
+      try {
+        setIsDepositing(true)
+        await contract?.deposit(
+          {
+            qd_amt: isQuid ? utils.format.parseNearAmount(depositAmnt) : '0',
+            live: false,
+          },
+          undefined,
+          isQuid ? '1' : utils.format.parseNearAmount(depositAmnt) || undefined
+        )
+        refetchAll()
+      } catch (e) {
+        // Todo: deal with errors
+        console.error(e)
+      } finally {
+        setIsDepositing(false)
+      }
+    }
   }
 
   return (
@@ -87,8 +134,8 @@ const Stake: React.FC = () => {
                 <br />
                 <Button
                   primary
-                  disabled={!depositAmnt}
-                  // color="gradient"
+                  disabled={!depositAmnt || isDepositing}
+                  icon={isDepositing ? <Spinner /> : undefined}
                   label="Confirm"
                   alignSelf="center"
                   size="large"
@@ -97,24 +144,7 @@ const Stake: React.FC = () => {
                     margin: '0 auto',
                     textAlign: 'center',
                   }}
-                  onClick={async () => {
-                    if (depositAmnt) {
-                      await contract?.deposit(
-                        {
-                          qd_amt: isQuid
-                            ? utils.format.parseNearAmount(depositAmnt)
-                            : '0',
-                          live: false,
-                        },
-                        undefined,
-                        isQuid
-                          ? '1'
-                          : utils.format.parseNearAmount(depositAmnt) ||
-                              undefined
-                      )
-                      refetchAll()
-                    }
-                  }}
+                  onClick={handleDeposit}
                 />
               </Box>
             </Tab>
@@ -134,31 +164,17 @@ const Stake: React.FC = () => {
                 <br />
                 <Button
                   primary
-                  disabled={!withdrawAmnt}
-                  // color="gradient"
+                  disabled={!withdrawAmnt || isWithdrawing}
+                  icon={isWithdrawing ? <Spinner /> : undefined}
                   label="Confirm"
                   alignSelf="center"
                   size="large"
-                  // fill
                   style={{
                     width: '90%',
                     margin: '0 auto',
                     textAlign: 'center',
                   }}
-                  onClick={async () => {
-                    if (withdrawAmnt) {
-                      await contract?.renege(
-                        {
-                          amount: utils.format.parseNearAmount(withdrawAmnt),
-                          sp: true,
-                          qd: isQuid,
-                        },
-                        undefined
-                        // utils.format.parseNearAmount('0.00001') || undefined
-                      )
-                      refetchAll()
-                    }
-                  }}
+                  onClick={handleWithdraw}
                 />
               </Box>
             </Tab>
@@ -168,7 +184,6 @@ const Stake: React.FC = () => {
         <Box
           width={{ max: '500px', width: '90%' }}
           background="background-back"
-          // animation="slideDown"
           gap="xxsmall"
           pad="medium"
           round="small"

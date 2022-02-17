@@ -48,8 +48,15 @@ export interface ContractType extends nearAPI.Contract {
    * last boolean parameter indicates the currency being withdrawn.
    */
   renege: (
-    // @ts-ignore Todo: find a solution for this weird duplicate alert
-    { amount: string, sp: boolean, qd: boolean }: Record<string, unknown>,
+    {
+      amount: string,
+      // @ts-ignore Todo: find a solution for this weird duplicate alert
+      sp: boolean,
+      // @ts-ignore
+      qd: boolean,
+      // @ts-ignore
+      live: boolean,
+    }: Record<string, unknown>,
     gas?: string,
     deposit?: string
   ) => void
