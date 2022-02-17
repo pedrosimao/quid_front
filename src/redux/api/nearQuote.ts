@@ -8,12 +8,19 @@ export interface NearQuoteType {
 export const nearQuoteApi = createApi({
   reducerPath: 'nearQuote',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://near-contract-helper.onrender.com',
+    baseUrl: 'https://api.coingecko.com/api/v3/simple/',
   }),
   endpoints: (builder) => ({
     // returns USD quote for Near
     getNearQuote: builder.query<number, void>({
-      query: () => `fiat`,
+      query: () => ({
+        url: 'price',
+        params: {
+          include_last_updated_at: true,
+          vs_currencies: 'usd,eur,cny',
+          ids: 'Near',
+        },
+      }),
       // Pick out data and prevent nested properties in a hook or selector
       transformResponse: (response: NearQuoteType) => response?.near?.usd,
     }),
