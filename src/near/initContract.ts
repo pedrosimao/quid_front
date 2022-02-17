@@ -52,7 +52,7 @@ export const initContract = async (): Promise<NearContextType> => {
       // View methods are read-only – they don't modify the state, but usually return some value
       viewMethods: ['get_pledge', 'get_pool_stats'],
       // Change methods can modify the state, but you don't receive the returned value when called
-      changeMethods: ['renege', 'borrow', 'deposit', 'fold', 'new'],
+      changeMethods: ['renege', 'borrow', 'deposit', 'fold', 'swap', 'new'],
     }
   )
   // @ts-ignore - Todo: verify whats the problem with Contract ts type

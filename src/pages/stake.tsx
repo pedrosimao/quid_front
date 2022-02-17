@@ -4,45 +4,39 @@ import { utils } from 'near-api-js'
 import { Box, Text, Tabs, Tab, Button } from 'grommet'
 
 import { NearContext } from 'src/near/nearContext'
-import { PledgeType, PoolStatsType } from 'src/near/types'
+import { useGetNearQuoteQuery } from 'src/redux/api/nearQuote'
+import { useGetBalance } from 'src/hooks/useGetBalance'
+import { useGetStats } from 'src/hooks/useGetStats'
 
 import { CryptoInput } from 'src/components/CryptoInput'
-import { useGetNearQuoteQuery } from 'src/redux/api/nearQuote'
 
 const Stake: React.FC = () => {
-  const { contract, currentUser } = React.useContext(NearContext)
+  const { contract } = React.useContext(NearContext)
   const [depositAmnt, setDepositAmnt] = React.useState<string | undefined>()
   const [withdrawAmnt, setWithdrawAmnt] = React.useState<string | undefined>()
   const [isQuid, setIsQuid] = React.useState<boolean>(false)
-  const [pledged, setPledged] = React.useState<PledgeType | undefined>()
-  const [stats, setStats] = React.useState<PoolStatsType | undefined>()
   const { data: nearQuote } = useGetNearQuoteQuery(undefined, {
-    pollingInterval: 30000, // set to 30 seconds
+    pollingInterval: 60000, // set to 60 seconds
   })
 
+  const {
+    quidBalance,
+    nearBalance,
+    refetch: refetchQuidBalance,
+  } = useGetBalance()
+
+  const { stats, refetch: refetchStats } = useGetStats()
+
   const currentBalance = isQuid
-    ? utils.format.formatNearAmount(pledged?.credit || '0')
-    : utils.format.formatNearAmount(currentUser?.balance || '0')
+    ? quidBalance // Todo: find stats
+    : nearBalance
 
-  const currentSpBalance = isQuid
-    ? utils.format.formatNearAmount(pledged?.quid_sp || '0')
-    : utils.format.formatNearAmount(pledged?.near_sp || '0')
+  const currentSpBalance = isQuid ? stats?.quidSpStaked : stats?.nearSpStaked
 
-  const getNewPledgedAmnt = async () => {
-    const newPledges = await contract?.get_pledge({
-      account: currentUser?.accountId,
-    })
-    setPledged(newPledges)
+  const refetchAll = () => {
+    refetchQuidBalance()
+    refetchStats()
   }
-  const getStats = async () => {
-    const newStats = await contract?.get_pool_stats({})
-    setStats(newStats)
-  }
-
-  React.useEffect(() => {
-    getNewPledgedAmnt()
-    getStats()
-  }, [contract])
 
   return (
     <>
@@ -105,14 +99,20 @@ const Stake: React.FC = () => {
                   }}
                   onClick={async () => {
                     if (depositAmnt) {
-                      contract?.deposit(
+                      await contract?.deposit(
                         {
-                          qd_amt: '0',
+                          qd_amt: isQuid
+                            ? utils.format.parseNearAmount(depositAmnt)
+                            : '0',
                           live: false,
                         },
                         undefined,
-                        utils.format.parseNearAmount(depositAmnt) || undefined
+                        isQuid
+                          ? '1'
+                          : utils.format.parseNearAmount(depositAmnt) ||
+                              undefined
                       )
+                      refetchAll()
                     }
                   }}
                 />
@@ -147,15 +147,16 @@ const Stake: React.FC = () => {
                   }}
                   onClick={async () => {
                     if (withdrawAmnt) {
-                      contract?.renege(
+                      await contract?.renege(
                         {
                           amount: utils.format.parseNearAmount(withdrawAmnt),
                           sp: true,
-                          qd: false,
+                          qd: isQuid,
                         },
                         undefined
                         // utils.format.parseNearAmount('0.00001') || undefined
                       )
+                      refetchAll()
                     }
                   }}
                 />
@@ -176,10 +177,10 @@ const Stake: React.FC = () => {
         >
           <Box flex direction="row" justify="between" gap="xxsmall">
             <Text as="h2" size="xlarge" margin="xxsmall">
-              Pool Near
+              Near Pool Total
             </Text>
             <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
-              {utils.format.formatNearAmount(stats?.blood_debit || '0')}
+              {stats?.nearSpTotal}
             </Text>
           </Box>
           <Box flex direction="row" justify="between" gap="xxsmall">
@@ -187,15 +188,15 @@ const Stake: React.FC = () => {
               My Staked Near
             </Text>
             <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
-              {utils.format.formatNearAmount(pledged?.near_sp || '0')}
+              {stats?.nearSpStaked}
             </Text>
           </Box>
           <Box flex direction="row" justify="between" gap="xxsmall">
             <Text as="h2" size="xlarge" margin="xxsmall">
-              Pool qUid
+              qUid Pool Total
             </Text>
             <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
-              {utils.format.formatNearAmount(stats?.blood_credit || '0')}
+              {stats?.quidSpTotal}
             </Text>
           </Box>
           <Box flex direction="row" justify="between" gap="xxsmall">
@@ -203,7 +204,7 @@ const Stake: React.FC = () => {
               My Staked Quid
             </Text>
             <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
-              {utils.format.formatNearAmount(pledged?.quid_sp || '0')}
+              {stats?.quidSpStaked}
             </Text>
           </Box>
         </Box>

@@ -62,6 +62,12 @@ export interface ContractType extends nearAPI.Contract {
     gas?: string,
     deposit?: string
   ) => void
+  swap: (
+    // @ts-ignore Todo: find a solution for this weird duplicate alert
+    { amount: string, repay: boolean, short: boolean }: Record<string, unknown>,
+    gas?: string,
+    deposit?: string
+  ) => void
   /*
    * Call this function to attempt liquidating a single Pledge
    */
@@ -85,4 +91,10 @@ export interface ContractType extends nearAPI.Contract {
     gas?: string,
     deposit?: string
   ) => Promise<PoolStatsType>
+  // // Get Pool Stats
+  // get_stats: (
+  //   { account: string, short: boolean }: Record<string, unknown>,
+  //   gas?: string,
+  //   deposit?: string
+  // ) => Promise<PoolStatsType>
 }

@@ -87,6 +87,7 @@ export const Navbar: React.FC = () => {
                       weight="normal"
                       size="medium"
                       reverse={false}
+                      onClick={() => router.push('/swap')}
                     />
                     <Anchor
                       label="borrow"

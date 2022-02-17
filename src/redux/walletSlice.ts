@@ -3,12 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 // Define a type for the slice state
-interface WalletState {
+interface WalletStateType {
   wallet: Record<string, unknown> | null
 }
 
 // Define the initial state using that type
-const initialState: WalletState = {
+const initialState: WalletStateType = {
   wallet: null,
 }
 

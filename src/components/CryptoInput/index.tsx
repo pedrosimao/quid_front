@@ -9,6 +9,7 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
   currencyQuote,
   onChange,
   onChangeCurrency,
+  showBalance = true,
 }) => {
   const [currency, setCurrency] = React.useState<t.CurrencyTypeEnum>(
     t.CurrencyTypeEnum.NEAR
@@ -33,7 +34,7 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
 
   return (
     <>
-      {maxValue ? (
+      {showBalance && maxValue ? (
         <Box
           flex
           width="90%"

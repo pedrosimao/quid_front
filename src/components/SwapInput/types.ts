@@ -1,10 +1,9 @@
-export interface CryptoInputPropsType {
+export interface SwapInputPropsType {
   value?: string
   onChange: (value: string) => void
   onChangeCurrency?: (e: string) => void
   maxValue?: string
-  currencyQuote?: number
-  showBalance?: boolean
+  swapQuote?: number
 }
 
 export enum CurrencyTypeEnum {
