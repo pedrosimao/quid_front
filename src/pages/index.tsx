@@ -23,7 +23,7 @@ const Home: NextPage = () => {
           justify="center"
           direction="column"
           gap="big"
-          height="calc(100vh - 68px)"
+          height="calc(100vh - 75px)"
         >
           <Image
             src="/images/logo_full.svg"
@@ -33,6 +33,16 @@ const Home: NextPage = () => {
             height={200}
           />
           <br />
+          <Box width="90%">
+            <Image
+              src="/images/guns.png"
+              alt="Man with guns"
+              width={2304}
+              // layout="intrinsic"
+              height={916}
+              objectFit="scale-down"
+            />
+          </Box>
           <Text
             as="h1"
             textAlign="center"

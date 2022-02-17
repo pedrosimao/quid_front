@@ -14,14 +14,14 @@ export const grommetTheme = deepMerge(grommet, {
   global: {
     colors: {
       brand: {
-        dark: '#5700ed',
-        light: '#5700ed',
+        dark: '#FF9900',
+        light: '#558FFF',
       },
       gradient: {
         // light: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         light:
           'linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%)',
-        dark: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        dark: 'linear-gradient(135deg, #FF9900 0%, #764ba2 100%)',
       },
       'gradient-background': {
         dark: 'linear-gradient(180deg, rgb(32 34 49) 5%, rgb(22 24 29) 15%, #000 100%)',
@@ -72,8 +72,8 @@ export const grommetTheme = deepMerge(grommet, {
         //   'linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(50.559% 99.609% 91.772%) 6.25%, rgb(50.473% 99.613% 92.974%) 12.5%, rgb(50.328% 99.62% 94.988%) 18.75%, rgb(50.126% 99.629% 97.828%) 25%, rgb(49.865% 97.767% 99.641%) 31.25%, rgb(49.547% 93.235% 99.656%) 37.5%, rgb(49.171% 87.801% 99.674%) 43.75%, rgb(48.736% 81.427% 99.695%) 50%, rgb(48.243% 74.067% 99.72%) 56.25%, rgb(47.691% 65.67% 99.748%) 62.5%, rgb(47.08% 56.177% 99.779%) 68.75%, rgb(47.297% 46.411% 99.815%) 75%, rgb(57.721% 45.682% 99.854%) 81.25%, rgb(69.335% 44.894% 99.898%) 87.5%, rgb(82.221% 44.045% 99.947%) 93.75%, rgb(96.471% 43.137% 100%) 100% )',
       },
       control: {
-        light: '#4000bb',
-        dark: '#bb94ff',
+        light: '#558FFF',
+        dark: '#FF9900',
       },
       'active-background': {
         light: 'background',
