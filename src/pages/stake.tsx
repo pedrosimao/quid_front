@@ -78,7 +78,7 @@ const Stake: React.FC = () => {
               <br />
               <Box direction="column">
                 <CryptoInput
-                  value={String(depositAmnt)}
+                  value={depositAmnt ? String(depositAmnt) : ''}
                   maxValue={currentBalance}
                   onChange={setDepositAmnt}
                   currencyQuote={nearQuote}
@@ -126,7 +126,7 @@ const Stake: React.FC = () => {
               <Box direction="column">
                 <CryptoInput
                   maxValue={currentSpBalance}
-                  value={String(withdrawAmnt)}
+                  value={withdrawAmnt ? String(withdrawAmnt) : ''}
                   currencyQuote={nearQuote}
                   onChange={setWithdrawAmnt}
                   onChangeCurrency={() => setIsQuid(!isQuid)}

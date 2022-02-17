@@ -87,7 +87,7 @@ const Swap: React.FC = () => {
         >
           <Box direction="column">
             <SwapInput
-              value={String(swapAmount)}
+              value={swapAmount ? String(swapAmount) : ''}
               maxValue={currentBalance}
               onChange={setSwapAmount}
               swapQuote={swapQuote}

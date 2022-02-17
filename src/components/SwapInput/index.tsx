@@ -71,7 +71,7 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
             size="xxlarge"
             textAlign="start"
             min={0}
-            value={value}
+            value={value ? value : ''}
             onChange={(e) => {
               onChange(e?.target?.value)
             }}
@@ -118,9 +118,7 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
             size="xxlarge"
             textAlign="start"
             min={0}
-            value={
-              swapQuote && value ? String(Number(value) * swapQuote) : undefined
-            }
+            value={swapQuote && value ? String(Number(value) * swapQuote) : ''}
             onChange={(e) => {
               onChange(String(Number(e?.target?.value) / (swapQuote || 1)))
             }}

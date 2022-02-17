@@ -25,12 +25,12 @@ export const useGetBalance = (): {
           account_id: currentUser?.accountId,
         })
       const newQuidBalance = utils.format.formatNearAmount(quidRes)
-      setQuidBalance(Number(newQuidBalance).toFixed(3))
+      setQuidBalance(Number(newQuidBalance || 0).toFixed(3))
       // Get Near balance
       const newNearBalance = utils.format.formatNearAmount(
         currentUser?.balance || '0'
       )
-      setNearBalance(Number(newNearBalance).toFixed(3))
+      setNearBalance(Number(newNearBalance || 0).toFixed(3))
     } catch (e) {
       // Todo: add a toaster warning of errors
       console.error(e)
