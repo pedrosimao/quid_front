@@ -112,23 +112,12 @@ const Swap: React.FC = () => {
           {/*  Stats Box */}
           <Box
             background="background-back"
-            // animation="slideDown"
             gap="xxsmall"
             pad="medium"
             round="small"
             direction="column"
             margin="large"
           >
-            {/*<Text*/}
-            {/*  weight="lighter"*/}
-            {/*  size="xsmall"*/}
-            {/*  alignSelf="end"*/}
-            {/*  color="text-weak"*/}
-            {/*>*/}
-            {/*  {nearQuote && Number(swapAmount)*/}
-            {/*    ? `Approximate value: ~${nearQuote.toFixed(2)} usd`*/}
-            {/*    : null}*/}
-            {/*</Text>*/}
             <Text
               weight="lighter"
               size="xsmall"
@@ -137,15 +126,6 @@ const Swap: React.FC = () => {
             >
               Price Impact: ~1%
             </Text>
-            {/*<Text*/}
-            {/*  weight="lighter"*/}
-            {/*  size="xsmall"*/}
-            {/*  alignSelf="end"*/}
-            {/*  color="text-weak"*/}
-            {/*>*/}
-            {/*  Minimum after slippage: ~$*/}
-            {/*  {(Number(nearQuote) * 0.95).toFixed(2)} usd*/}
-            {/*</Text>*/}
           </Box>
         </Box>
       </Box>

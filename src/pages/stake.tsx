@@ -111,9 +111,7 @@ const Stake: React.FC = () => {
         {/* Deposit and Withdraw Box*/}
         <Box
           width={{ max: '500px', width: '90%' }}
-          // height="300px"
           background="background-front"
-          // animation="slideDown"
           gap="small"
           pad="medium"
           round="small"
@@ -150,7 +148,7 @@ const Stake: React.FC = () => {
             </Tab>
             <Tab
               title="Withdraw"
-              color="linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(53.456% 96.078% 91.912%) 6.25%, rgb(56.324% 92.549% 92.451%) 12.5%, rgb(59.191% 89.02% 92.99%) 18.75%, rgb(62.059% 85.49% 93.529%) 25%, rgb(64.926% 81.961% 94.069%) 31.25%, rgb(67.794% 78.431% 94.608%) 37.5%, rgb(70.662% 74.902% 95.147%) 43.75%, rgb(73.529% 71.373% 95.686%) 50%, rgb(76.397% 67.843% 96.225%) 56.25%, rgb(79.265% 64.314% 96.765%) 62.5%, rgb(82.132% 60.784% 97.304%) 68.75%, rgb(85% 57.255% 97.843%) 75%, rgb(87.868% 53.725% 98.382%) 81.25%, rgb(90.735% 50.196% 98.922%) 87.5%, rgb(93.603% 46.667% 99.461%) 93.75%, rgb(96.471% 43.137% 100%) 100% )"
+              // color="linear-gradient(90deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(53.456% 96.078% 91.912%) 6.25%, rgb(56.324% 92.549% 92.451%) 12.5%, rgb(59.191% 89.02% 92.99%) 18.75%, rgb(62.059% 85.49% 93.529%) 25%, rgb(64.926% 81.961% 94.069%) 31.25%, rgb(67.794% 78.431% 94.608%) 37.5%, rgb(70.662% 74.902% 95.147%) 43.75%, rgb(73.529% 71.373% 95.686%) 50%, rgb(76.397% 67.843% 96.225%) 56.25%, rgb(79.265% 64.314% 96.765%) 62.5%, rgb(82.132% 60.784% 97.304%) 68.75%, rgb(85% 57.255% 97.843%) 75%, rgb(87.868% 53.725% 98.382%) 81.25%, rgb(90.735% 50.196% 98.922%) 87.5%, rgb(93.603% 46.667% 99.461%) 93.75%, rgb(96.471% 43.137% 100%) 100% )"
             >
               <br />
               <Box direction="column">
@@ -191,34 +189,34 @@ const Stake: React.FC = () => {
           margin="large"
         >
           <Box flex direction="row" justify="between" gap="xxsmall">
-            <Text as="h2" size="xlarge" margin="xxsmall">
+            <Text as="h2" size="medium" margin="xxsmall">
               Near Pool Total
             </Text>
-            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
+            <Text as="h3" size="small" weight="lighter" margin="xxsmall">
               {stats?.nearSpTotal}
             </Text>
           </Box>
           <Box flex direction="row" justify="between" gap="xxsmall">
-            <Text as="h2" size="xlarge" weight="lighter" margin="xxsmall">
+            <Text as="h2" size="medium" weight="lighter" margin="xxsmall">
               My Staked Near
             </Text>
-            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
+            <Text as="h3" size="small" weight="lighter" margin="xxsmall">
               {stats?.nearSpStaked}
             </Text>
           </Box>
           <Box flex direction="row" justify="between" gap="xxsmall">
-            <Text as="h2" size="xlarge" margin="xxsmall">
+            <Text as="h2" size="medium" margin="xxsmall">
               qUid Pool Total
             </Text>
-            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
+            <Text as="h3" size="small" weight="lighter" margin="xxsmall">
               {stats?.quidSpTotal}
             </Text>
           </Box>
           <Box flex direction="row" justify="between" gap="xxsmall">
-            <Text as="h2" size="xlarge" weight="lighter" margin="xxsmall">
+            <Text as="h2" size="medium" weight="lighter" margin="xxsmall">
               My Staked Quid
             </Text>
-            <Text as="h3" size="medium" weight="lighter" margin="xxsmall">
+            <Text as="h3" size="small" weight="lighter" margin="xxsmall">
               {stats?.quidSpStaked}
             </Text>
           </Box>

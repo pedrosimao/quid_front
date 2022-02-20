@@ -95,6 +95,7 @@ export const Navbar: React.FC = () => {
                       weight="normal"
                       size="medium"
                       reverse={false}
+                      onClick={() => router.push('/borrow')}
                     />
                   </Nav>
                 )
@@ -132,7 +133,7 @@ export const Navbar: React.FC = () => {
                   background="gradient"
                   // background="linear-gradient(126deg, rgb(50.588% 99.608% 91.373%) 0%, rgb(56.144% 92.77% 92.417%) 6.25%, rgb(61.342% 86.373% 93.395%) 12.5%, rgb(66.181% 80.417% 94.305%) 18.75%, rgb(70.662% 74.902% 95.147%) 25%, rgb(74.784% 69.828% 95.922%) 31.25%, rgb(78.548% 65.196% 96.63%) 37.5%, rgb(81.953% 61.005% 97.27%) 43.75%, rgb(85% 57.255% 97.843%) 50%, rgb(87.688% 53.946% 98.349%) 56.25%, rgb(90.018% 51.078% 98.787%) 62.5%, rgb(91.99% 48.652% 99.157%) 68.75%, rgb(93.603% 46.667% 99.461%) 75%, rgb(94.858% 45.123% 99.697%) 81.25%, rgb(95.754% 44.02% 99.865%) 87.5%, rgb(96.291% 43.358% 99.966%) 93.75%, rgb(96.471% 43.137% 100%) 100% )"
                 >
-                  <Text size="xsmall" weight={200} alignSelf="center">
+                  <Text size="medium" weight={200} alignSelf="center">
                     {Number(
                       utils.format.formatNearAmount(currentUser?.balance || '0')
                     ).toFixed(2)}

@@ -45,17 +45,13 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
           direction="row"
           margin="0 auto"
         >
-          <Text as="p" size="xsmall" margin="0">
+          <Text as="p" size="small" margin="0">
             balance: {Number(maxValue || 0).toFixed(3)}
           </Text>
           <Button
-            // primary
             label="max"
             alignSelf="end"
-            // margin="auto 10px auto 0"
-            // color="gradient"
             size="small"
-            // gap="xsmall"
             onClick={() => {
               onChange(maxValue)
             }}
@@ -71,7 +67,6 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
         round="small"
         pad="small"
         background="background-back"
-        // background="gradient-background"
       >
         <Box width="100%" flex direction="row">
           <TextInput
@@ -91,12 +86,8 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
           />
           <Button
             primary
-            // size="small"
-            plain={false}
             alignSelf="end"
             margin="auto 0"
-            // size="small"
-            // style={{ cursor: 'pointer' }}
             label={currency}
             onClick={() => {
               const newCurrency =

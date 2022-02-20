@@ -522,14 +522,14 @@ export const grommetTheme = deepMerge(grommet, {
   },
   text: {
     xsmall: {
-      size: '17px',
-      height: '23px',
-      maxWidth: '403px',
+      size: '14px',
+      height: '19px',
+      maxWidth: '400px',
     },
     small: {
-      size: '17px',
-      height: '23px',
-      maxWidth: '418px',
+      size: '16px',
+      height: '21px',
+      maxWidth: '408px',
     },
     medium: {
       size: '18px',
@@ -673,7 +673,6 @@ export const grommetTheme = deepMerge(grommet, {
   //     color: 'text-weak',
   //   },
   // },
-  // @ts-ignore
   // extend: ({ theme }) =>
   //   css`
   //     transition: all 0.2s;

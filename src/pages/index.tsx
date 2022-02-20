@@ -29,7 +29,6 @@ const Home: NextPage = () => {
             src="/images/logo_full.svg"
             alt="qUid Logo"
             width={200}
-            // layout="responsive"
             height={200}
           />
           <br />

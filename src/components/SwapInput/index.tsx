@@ -5,21 +5,40 @@ import * as t from './types'
 
 export const SwapInput: React.FC<t.SwapInputPropsType> = ({
   value,
+  outputValue,
   maxValue,
   swapQuote,
   onChange,
+  onChangeOutput,
   onChangeCurrency,
+  inputLabel,
+  outputLabel,
+  isOutputUnlocked = false,
 }) => {
   const [currency, setCurrency] = React.useState<t.CurrencyTypeEnum>(
     t.CurrencyTypeEnum.NEAR
   )
   const handleChangeCurrency = () => {
+    if (!onChangeCurrency) return
     const newCurrency =
       currency === t.CurrencyTypeEnum.NEAR
         ? t.CurrencyTypeEnum.QUID
         : t.CurrencyTypeEnum.NEAR
     setCurrency(newCurrency)
     onChangeCurrency && onChangeCurrency(newCurrency)
+  }
+
+  const getOutputValue = () => {
+    if (isOutputUnlocked) return outputValue ? outputValue : undefined
+    return swapQuote && value ? String(Number(value) * swapQuote) : ''
+  }
+
+  const handleOutputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isOutputUnlocked) {
+      onChangeOutput && onChangeOutput(e?.target?.value)
+      return
+    }
+    onChange(String(Number(e?.target?.value) / (swapQuote || 1)))
   }
 
   return (
@@ -34,7 +53,7 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
           direction="row"
           margin="0 auto"
         >
-          <Text alignSelf="start">Pay:</Text>
+          <Text alignSelf="start">{inputLabel ? inputLabel : 'Pay:'}</Text>
           <Box flex justify="end" align="center" direction="row" gap="xsmall">
             <Text as="p" size="xsmall" margin="0" alignSelf="center">
               balance: {Number(maxValue || 0).toFixed(3)}
@@ -95,7 +114,9 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
         justify="between"
         direction="row"
       >
-        <Text alignSelf="start">Receive: (approximately)</Text>
+        <Text alignSelf="start">
+          {outputLabel ? outputLabel : 'Receive: (approximately)'}
+        </Text>
       </Box>
       <Box
         margin="5px auto 0 auto"
@@ -118,10 +139,8 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
             size="xxlarge"
             textAlign="start"
             min={0}
-            value={swapQuote && value ? String(Number(value) * swapQuote) : ''}
-            onChange={(e) => {
-              onChange(String(Number(e?.target?.value) / (swapQuote || 1)))
-            }}
+            value={getOutputValue()}
+            onChange={handleOutputChange}
           />
           <Button
             primary
