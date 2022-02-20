@@ -12,6 +12,6 @@ export interface SwapInputPropsType {
 }
 
 export enum CurrencyTypeEnum {
-  NEAR = 'Near',
-  QUID = 'qUid',
+  NEAR = 'NEAR',
+  QUID = 'QUID',
 }

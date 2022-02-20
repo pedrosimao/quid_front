@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Image from 'next/image'
 import { Box, Text, TextInput, Button } from 'grommet'
 
 import * as t from './types'
@@ -89,6 +90,20 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
             alignSelf="end"
             margin="auto 0"
             label={currency}
+            color="background-front"
+            icon={
+              <Image
+                src={
+                  currency === t.CurrencyTypeEnum.NEAR
+                    ? '/images/near_icon.svg'
+                    : '/images/logo_small.svg'
+                }
+                alt="Currency Icon"
+                height={77}
+                width={77}
+                objectFit="scale-down"
+              />
+            }
             onClick={() => {
               const newCurrency =
                 currency === t.CurrencyTypeEnum.NEAR

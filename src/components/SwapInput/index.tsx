@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Image from 'next/image'
 import { Box, Button, Text, TextInput } from 'grommet'
 
 import * as t from './types'
@@ -97,11 +98,25 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
           />
           <Button
             primary
+            icon={
+              <Image
+                alt="currency icon"
+                src={
+                  currency === t.CurrencyTypeEnum.NEAR
+                    ? '/images/near_icon.svg'
+                    : '/images/logo_small.svg'
+                }
+                height={77}
+                width={77}
+                objectFit="scale-down"
+              />
+            }
             plain={false}
             alignSelf="end"
             margin="auto 0"
             label={currency}
             onClick={handleChangeCurrency}
+            color="background-front"
           />
         </Box>
       </Box>
@@ -147,8 +162,20 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
             plain={false}
             alignSelf="end"
             margin="auto 0"
-            // size="small"
-            // style={{ cursor: 'pointer' }}
+            color="background-front"
+            icon={
+              <Image
+                alt="currency icon"
+                src={
+                  currency === t.CurrencyTypeEnum.NEAR
+                    ? '/images/logo_small.svg'
+                    : '/images/near_icon.svg'
+                }
+                height={77}
+                width={77}
+                objectFit="scale-down"
+              />
+            }
             label={
               currency === t.CurrencyTypeEnum.NEAR
                 ? t.CurrencyTypeEnum.QUID

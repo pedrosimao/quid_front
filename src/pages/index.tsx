@@ -37,7 +37,6 @@ const Home: NextPage = () => {
               src="/images/guns.png"
               alt="Man with guns"
               width={2304}
-              // layout="intrinsic"
               height={916}
               objectFit="scale-down"
             />
@@ -45,13 +44,32 @@ const Home: NextPage = () => {
           <Text
             as="h1"
             textAlign="center"
-            size="4xl"
+            size="3xl"
             weight="lighter"
             color="text-weak"
           >
             Stable Coin <br />
-            <strong>on Near Protocol</strong>
+            on
+            <Image
+              src="/images/near_logo.svg"
+              alt="Near Protocol Logo"
+              width={250}
+              height={90}
+              objectPosition="15px 20px"
+              objectFit="scale-down"
+            />
+            Protocol
           </Text>
+
+          <Image
+            src="/images/lemnis_logo.svg"
+            alt="Lemnis Logo"
+            width={100}
+            height={50}
+            objectPosition="bottom"
+            objectFit="scale-down"
+          />
+          <br />
         </Box>
       </MainContainer>
     </>

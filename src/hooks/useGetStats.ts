@@ -8,6 +8,10 @@ export interface StatsType {
   quidSpTotal: string
   nearSpStaked: string
   quidSpStaked: string
+  credit: string
+  debit: string
+  sCredit: string
+  sDebit: string
 }
 // Todo: replace by redux-toolkit query
 export const useGetStats = (): {
@@ -44,6 +48,10 @@ export const useGetStats = (): {
         ),
         nearSpStaked: utils.format.formatNearAmount(newPledged?.near_sp || '0'),
         quidSpStaked: utils.format.formatNearAmount(newPledged?.quid_sp || '0'),
+        credit: utils.format.formatNearAmount(newPledged?.credit || '0'),
+        debit: utils.format.formatNearAmount(newPledged?.debit || '0'),
+        sCredit: utils.format.formatNearAmount(newPledged?.s_credit || '0'),
+        sDebit: utils.format.formatNearAmount(newPledged?.s_debit || '0'),
       })
     } catch (e) {
       // Todo: add a toaster warning of errors

@@ -10,6 +10,7 @@ import { useGetBalance } from 'src/hooks/useGetBalance'
 import { SwapInput } from 'src/components/SwapInput'
 
 const EXCHANGE_RATE = 0.99090909091
+const FEE_RATE = 0.0099090909091
 
 const Swap: React.FC = () => {
   const { contract } = React.useContext(NearContext)
@@ -26,6 +27,12 @@ const Swap: React.FC = () => {
     ? // Todo: investigate if exchange rate applies to Quid
       (1 / Number(nearQuote)) * EXCHANGE_RATE
     : Number(nearQuote) * EXCHANGE_RATE
+
+  const getFee = () => {
+    return isQuid
+      ? (Number(swapAmount) * FEE_RATE).toFixed(2)
+      : (Number(swapAmount) * Number(nearQuote) * FEE_RATE).toFixed(2)
+  }
 
   const currentBalance = isQuid ? quidBalance : nearBalance
 
@@ -105,6 +112,7 @@ const Swap: React.FC = () => {
                 width: '90%',
                 margin: '0 auto',
                 textAlign: 'center',
+                backgroundImage: 'url("/images/button_img.png")',
               }}
               onClick={handleSwap}
             />
@@ -118,6 +126,15 @@ const Swap: React.FC = () => {
             direction="column"
             margin="large"
           >
+            <Text
+              weight="lighter"
+              size="xsmall"
+              alignSelf="end"
+              color="text-weak"
+            >
+              Fee: {swapAmount && getFee()}
+              {' usd'}
+            </Text>
             <Text
               weight="lighter"
               size="xsmall"

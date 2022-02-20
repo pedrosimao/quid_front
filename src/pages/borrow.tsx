@@ -2,10 +2,13 @@ import * as React from 'react'
 import Head from 'next/head'
 import { utils } from 'near-api-js'
 import { Box, Text, Button, Spinner, Tabs, Tab } from 'grommet'
+// @ts-ignore Todo: create a type definition on typings file
+import GaugeChart from 'react-gauge-chart'
 
 import { NearContext } from 'src/near/nearContext'
 import { useGetNearQuoteQuery } from 'src/redux/api/nearQuote'
 import { useGetBalance } from 'src/hooks/useGetBalance'
+import { useGetStats } from 'src/hooks/useGetStats'
 
 import { SwapInput } from 'src/components/SwapInput'
 
@@ -24,6 +27,7 @@ const Borrow: React.FC = () => {
   const [isWithdraw, setIsWithdraw] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const { quidBalance, nearBalance } = useGetBalance()
+  const { stats } = useGetStats()
 
   // Todo: borrow short
   // const [isQuid, setIsQuid] = React.useState<boolean>(false)
@@ -77,20 +81,36 @@ const Borrow: React.FC = () => {
   }
 
   const handleWithdraw = async () => {
-    if (inputWithdrawAmount && outputWithdrawAmount) {
+    if (inputWithdrawAmount || outputWithdrawAmount) {
       try {
         setIsLoading(true)
-        contract?.renege(
-          {
-            amount: utils.format.parseNearAmount(inputWithdrawAmount),
-            sp: false,
-            // Todo: find out how to withdraw short
-            qd: utils.format.parseNearAmount(outputWithdrawAmount) || false,
-            live: true,
-          },
-          undefined,
-          '1'
-        )
+        // Withdraw
+        if (inputWithdrawAmount) {
+          contract?.renege(
+            {
+              amount: utils.format.parseNearAmount(inputWithdrawAmount),
+              sp: false,
+              // Todo: implement short
+              qd: false,
+              live: true,
+            },
+            undefined,
+            '1'
+          )
+        }
+        // Repay
+        if (outputWithdrawAmount) {
+          contract?.swap(
+            {
+              amount: utils.format.parseNearAmount(outputWithdrawAmount),
+              repay: true,
+              // Todo: implement short
+              short: false,
+            },
+            undefined,
+            '1'
+          )
+        }
       } catch (e) {
         // Todo: deal with errors
         console.error(e)
@@ -118,7 +138,7 @@ const Borrow: React.FC = () => {
         <Text
           as="h2"
           size="xxlarge"
-          margin={{ bottom: 'medium', top: 'large' }}
+          margin={{ bottom: 'medium', top: 'small' }}
           textAlign="center"
         >
           Borrow <br />
@@ -132,6 +152,39 @@ const Borrow: React.FC = () => {
           round="small"
           margin="0 auto"
         >
+          <Box
+            direction="row"
+            justify="center"
+            gap="small"
+            background="background-back"
+            pad="small"
+            round="small"
+            width="90%"
+            margin={'0px auto 10px auto'}
+          >
+            <Box width="30%">
+              <Text size="small" textAlign="center">
+                Deposit <br />
+                (Near) <br />
+                {stats?.credit ? Number(stats?.credit).toFixed(3) : 0}
+              </Text>
+            </Box>
+            <Box width="40%">
+              <GaugeChart
+                id="gauge-chart2"
+                nrOfLevels={22}
+                percent={getCollateralRatio() ? 1 / getCollateralRatio() : 0}
+                colors={['yellow', '#FFC371', 'red']}
+                arcWidth={0.22}
+              />
+            </Box>
+            <Box width="30%" alignContent="center">
+              <Text size="small" textAlign="center">
+                Debt <br />
+                {stats?.debit ? Number(stats?.debit).toFixed(3) : 0}
+              </Text>
+            </Box>
+          </Box>
           <Tabs
             justify="center"
             onActive={(i) => {
@@ -169,7 +222,7 @@ const Borrow: React.FC = () => {
               primary
               disabled={
                 isWithdraw
-                  ? !inputWithdrawAmount || !outputWithdrawAmount || isLoading
+                  ? (!inputWithdrawAmount && !outputWithdrawAmount) || isLoading
                   : !inputAmount || !outputAmount || isLoading
               }
               label="Confirm"
