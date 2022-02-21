@@ -44,21 +44,21 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
 
   return (
     <Box flex align="center" direction="column">
-      {maxValue ? (
-        <Box
-          width="90%"
-          gap="small"
-          pad="none"
-          align="center"
-          justify="between"
-          direction="row"
-          margin="0 auto"
-        >
-          <Text alignSelf="start">{inputLabel ? inputLabel : 'Pay:'}</Text>
-          <Box flex justify="end" align="center" direction="row" gap="xsmall">
-            <Text as="p" size="xsmall" margin="0" alignSelf="center">
-              balance: {Number(maxValue || 0).toFixed(3)}
-            </Text>
+      <Box
+        width="90%"
+        gap="small"
+        pad="none"
+        align="center"
+        justify="between"
+        direction="row"
+        margin="0 auto"
+      >
+        <Text alignSelf="start">{inputLabel ? inputLabel : 'Pay:'}</Text>
+        <Box flex justify="end" align="center" direction="row" gap="xsmall">
+          <Text as="p" size="xsmall" margin="0" alignSelf="center">
+            balance: {Number(maxValue || 0).toFixed(3)}
+          </Text>
+          {maxValue ? (
             <Button
               label="max"
               alignSelf="end"
@@ -67,9 +67,9 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
                 onChange(maxValue)
               }}
             />
-          </Box>
+          ) : null}
         </Box>
-      ) : null}
+      </Box>
       <Box
         margin="5px auto 0 auto"
         border={{ size: 'xsmall' }}
@@ -98,6 +98,7 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
           />
           <Button
             primary
+            size="small"
             icon={
               <Image
                 alt="currency icon"
@@ -106,8 +107,8 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
                     ? '/images/near_icon.svg'
                     : '/images/logo_small.svg'
                 }
-                height={77}
-                width={77}
+                height={66}
+                width={66}
                 objectFit="scale-down"
               />
             }
@@ -159,6 +160,7 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
           />
           <Button
             primary
+            size="small"
             plain={false}
             alignSelf="end"
             margin="auto 0"
@@ -171,8 +173,8 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
                     ? '/images/logo_small.svg'
                     : '/images/near_icon.svg'
                 }
-                height={77}
-                width={77}
+                height={66}
+                width={66}
                 objectFit="scale-down"
               />
             }
@@ -185,23 +187,6 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
           />
         </Box>
       </Box>
-      {/* Todo: display some info about the swap transaction */}
-      {/*<Box width="90%" justify="end">*/}
-      {/*  <Text weight="lighter" size="xsmall" alignSelf="end" color="text-weak">*/}
-      {/*    {fiatValue && Number(value)*/}
-      {/*      ? `Approximate value: ~${fiatValue.toFixed(2)} usd`*/}
-      {/*      : null}*/}
-      {/*  </Text>*/}
-      {/*  <Text weight="lighter" size="xsmall" alignSelf="end" color="text-weak">*/}
-      {/*    Price Impact: ~1%*/}
-      {/*  </Text>*/}
-      {/*  <Text weight="lighter" size="xsmall" alignSelf="end" color="text-weak">*/}
-      {/*    Max slippage: ~1%*/}
-      {/*  </Text>*/}
-      {/*  <Text weight="lighter" size="xsmall" alignSelf="end" color="text-weak">*/}
-      {/*    Minimum received after slippage: ~${(fiatValue * 0.95).toFixed(2)} usd*/}
-      {/*  </Text>*/}
-      {/*</Box>*/}
     </Box>
   )
 }

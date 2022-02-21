@@ -35,7 +35,7 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
 
   return (
     <>
-      {showBalance && maxValue ? (
+      {showBalance ? (
         <Box
           flex
           width="90%"
@@ -49,14 +49,16 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
           <Text as="p" size="small" margin="0">
             balance: {Number(maxValue || 0).toFixed(3)}
           </Text>
-          <Button
-            label="max"
-            alignSelf="end"
-            size="small"
-            onClick={() => {
-              onChange(maxValue)
-            }}
-          />
+          {maxValue ? (
+            <Button
+              label="max"
+              alignSelf="end"
+              size="small"
+              onClick={() => {
+                onChange(maxValue)
+              }}
+            />
+          ) : null}
         </Box>
       ) : null}
       <Box
@@ -91,6 +93,7 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
             margin="auto 0"
             label={currency}
             color="background-front"
+            size="small"
             icon={
               <Image
                 src={
@@ -99,8 +102,8 @@ export const CryptoInput: React.FC<t.CryptoInputPropsType> = ({
                     : '/images/logo_small.svg'
                 }
                 alt="Currency Icon"
-                height={77}
-                width={77}
+                height={66}
+                width={66}
                 objectFit="scale-down"
               />
             }

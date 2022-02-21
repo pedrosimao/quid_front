@@ -60,15 +60,6 @@ const Home: NextPage = () => {
             />
             Protocol
           </Text>
-
-          <Image
-            src="/images/lemnis_logo.svg"
-            alt="Lemnis Logo"
-            width={100}
-            height={50}
-            objectPosition="bottom"
-            objectFit="scale-down"
-          />
           <br />
         </Box>
       </MainContainer>

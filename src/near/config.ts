@@ -1,10 +1,10 @@
 export const CONTRACT_NAME =
-  process.env.CONTRACT_NAME || 'dev-1645134464429-38710865502300'
+  process.env.CONTRACT_NAME || 'dev-1645458162959-30481065418494'
 
 export enum NETWORK_TYPE {
   PRODUCTION = 'production',
   DEV = 'development',
-  TEST = 'test',
+  // TEST = 'test',
   TESTNET = 'testnet',
 }
 export const getConfig = (env: string) => {

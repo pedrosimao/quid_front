@@ -58,6 +58,16 @@ const Borrow: React.FC = () => {
     return 0
   }
 
+  const getGaugeNumber = () => {
+    return isWithdraw
+      ? (Number(stats?.debit || 0) - Number(outputWithdrawAmount || 0)) /
+          ((Number(stats?.credit || 0) - Number(inputWithdrawAmount || 0)) *
+            Number(nearQuote))
+      : (Number(stats?.debit || 0) + Number(outputAmount || 0)) /
+          ((Number(stats?.credit || 0) + Number(inputAmount || 0)) *
+            Number(nearQuote))
+  }
+
   const handleBorrow = async () => {
     if (inputAmount && outputAmount) {
       try {
@@ -84,28 +94,28 @@ const Borrow: React.FC = () => {
     if (inputWithdrawAmount || outputWithdrawAmount) {
       try {
         setIsLoading(true)
-        // Withdraw
+        // Repay first
+        if (outputWithdrawAmount) {
+          await contract?.swap(
+            {
+              amount: utils.format.parseNearAmount(outputWithdrawAmount),
+              repay: true,
+              // Todo: implement short
+              short: false,
+            },
+            undefined,
+            '1'
+          )
+        }
+        // Then Withdraw
         if (inputWithdrawAmount) {
-          contract?.renege(
+          await contract?.renege(
             {
               amount: utils.format.parseNearAmount(inputWithdrawAmount),
               sp: false,
               // Todo: implement short
               qd: false,
               live: true,
-            },
-            undefined,
-            '1'
-          )
-        }
-        // Repay
-        if (outputWithdrawAmount) {
-          contract?.swap(
-            {
-              amount: utils.format.parseNearAmount(outputWithdrawAmount),
-              repay: true,
-              // Todo: implement short
-              short: false,
             },
             undefined,
             '1'
@@ -173,7 +183,7 @@ const Borrow: React.FC = () => {
               <GaugeChart
                 id="gauge-chart2"
                 nrOfLevels={22}
-                percent={getCollateralRatio() ? 1 / getCollateralRatio() : 0}
+                percent={getGaugeNumber()}
                 colors={['yellow', '#FFC371', 'red']}
                 arcWidth={0.22}
               />

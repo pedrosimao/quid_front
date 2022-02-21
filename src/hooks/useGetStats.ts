@@ -37,8 +37,7 @@ export const useGetStats = (): {
       setIsLoading(true)
       const newStats = await getStats()
       const newPledged = await getPledged()
-      // console.log({ newStats })
-      // console.log({ newPledged })
+
       setStats({
         nearSpTotal: utils.format.formatNearAmount(
           newStats?.blood_debit || '0'

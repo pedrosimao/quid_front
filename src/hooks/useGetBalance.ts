@@ -24,7 +24,7 @@ export const useGetBalance = (): {
         .viewFunction(contract?.contractId || '', 'ft_balance_of', {
           account_id: currentUser?.accountId,
         })
-      const newQuidBalance = utils.format.formatNearAmount(quidRes)
+      const newQuidBalance = utils.format.formatNearAmount(quidRes || '0')
       setQuidBalance(Number(newQuidBalance || 0).toFixed(3))
       // Get Near balance
       const newNearBalance = utils.format.formatNearAmount(
