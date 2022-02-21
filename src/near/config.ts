@@ -1,5 +1,5 @@
 export const CONTRACT_NAME =
-  process.env.CONTRACT_NAME || 'dev-1645458162959-30481065418494'
+  process.env.CONTRACT_NAME || 'dev-1645475714426-52292221946153'
 
 export enum NETWORK_TYPE {
   PRODUCTION = 'production',
@@ -10,14 +10,14 @@ export enum NETWORK_TYPE {
 export const getConfig = (env: string) => {
   switch (env) {
     case NETWORK_TYPE.PRODUCTION:
-      return {
-        networkId: 'mainnet',
-        nodeUrl: 'https://rpc.mainnet.near.org',
-        contractName: CONTRACT_NAME,
-        walletUrl: 'https://wallet.near.org',
-        helperUrl: 'https://helper.mainnet.near.org',
-        explorerUrl: 'https://explorer.mainnet.near.org',
-      }
+    // return {
+    //   networkId: 'mainnet',
+    //   nodeUrl: 'https://rpc.mainnet.near.org',
+    //   contractName: CONTRACT_NAME,
+    //   walletUrl: 'https://wallet.near.org',
+    //   helperUrl: 'https://helper.mainnet.near.org',
+    //   explorerUrl: 'https://explorer.mainnet.near.org',
+    // }
     // This is an example app so production is set to testnet.
     // You can move production to mainnet if that is applicable.
     // case NETWORK_TYPE.PRODUCTION:
