@@ -46,7 +46,7 @@ const Borrow: React.FC = () => {
     if (nearQuote && inputAmount && outputAmount) {
       return isQuid
         ? Number(Number(inputAmount) / (Number(outputAmount) * nearQuote))
-        : (Number(inputAmount) * nearQuote) / Number(outputAmount)
+        : Number(outputAmount) / (Number(inputAmount) * nearQuote)
     }
     return 0
   }
