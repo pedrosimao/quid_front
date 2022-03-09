@@ -9,6 +9,7 @@ import { NearContext } from 'src/near/nearContext'
 import { useGetNearQuoteQuery } from 'src/redux/api/nearQuote'
 import { useGetBalance } from 'src/hooks/useGetBalance'
 import { useGetStats } from 'src/hooks/useGetStats'
+import { toNumber } from 'src/utils/numbers'
 
 import { SwapInput } from 'src/components/SwapInput'
 
@@ -16,14 +17,12 @@ const EXCHANGE_RATE = 0.99090909091
 
 const Borrow: React.FC = () => {
   const { contract } = React.useContext(NearContext)
-  const [inputAmount, setInputAmount] = React.useState<string | undefined>()
-  const [outputAmount, setOutputAmount] = React.useState<string | undefined>()
-  const [inputWithdrawAmount, setInputWithdrawAmount] = React.useState<
-    string | undefined
-  >()
-  const [outputWithdrawAmount, setOutputWithdrawAmount] = React.useState<
-    string | undefined
-  >()
+  const [inputAmount, setInputAmount] = React.useState<string>('')
+  const [outputAmount, setOutputAmount] = React.useState<string>('')
+  const [inputWithdrawAmount, setInputWithdrawAmount] =
+    React.useState<string>('')
+  const [outputWithdrawAmount, setOutputWithdrawAmount] =
+    React.useState<string>('')
   const [isWithdraw, setIsWithdraw] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const { quidBalance, nearBalance } = useGetBalance()
@@ -38,34 +37,37 @@ const Borrow: React.FC = () => {
 
   const swapQuote = isQuid
     ? // Todo: investigate if exchange rate applies to Quid
-      (1 / Number(nearQuote)) * EXCHANGE_RATE
-    : Number(nearQuote) * EXCHANGE_RATE
+      (1 / toNumber(nearQuote)) * EXCHANGE_RATE
+    : toNumber(nearQuote) * EXCHANGE_RATE
 
   const currentBalance = isQuid ? quidBalance : nearBalance
   const getCollateralRatio = (): number => {
     if (nearQuote && inputAmount && outputAmount) {
-      return isQuid
-        ? Number(Number(inputAmount) / (Number(outputAmount) * nearQuote))
-        : Number(outputAmount) / (Number(inputAmount) * nearQuote)
+      const newRatio = isQuid
+        ? toNumber(toNumber(inputAmount) / (toNumber(outputAmount) * nearQuote))
+        : toNumber(outputAmount) / (toNumber(inputAmount) * nearQuote)
+      return toNumber(newRatio)
     }
     return 0
   }
 
   const getLiquidationPrice = (): number => {
     if (nearQuote && inputAmount && outputAmount) {
-      return nearQuote * getCollateralRatio()
+      const newLiquidation = nearQuote * getCollateralRatio()
+      return toNumber(newLiquidation)
     }
     return 0
   }
 
   const getGaugeNumber = () => {
-    return isWithdraw
-      ? (Number(stats?.debit || 0) - Number(outputWithdrawAmount || 0)) /
-          ((Number(stats?.credit || 0) - Number(inputWithdrawAmount || 0)) *
-            Number(nearQuote))
-      : (Number(stats?.debit || 0) + Number(outputAmount || 0)) /
-          ((Number(stats?.credit || 0) + Number(inputAmount || 0)) *
-            Number(nearQuote))
+    const newValue = isWithdraw
+      ? (toNumber(stats?.debit) - toNumber(outputWithdrawAmount)) /
+        ((toNumber(stats?.credit) - toNumber(inputWithdrawAmount)) *
+          toNumber(nearQuote))
+      : (toNumber(stats?.debit) + toNumber(outputAmount)) /
+        ((toNumber(stats?.credit) + toNumber(inputAmount)) *
+          toNumber(nearQuote))
+    return toNumber(newValue)
   }
 
   const handleBorrow = async () => {
@@ -176,22 +178,24 @@ const Borrow: React.FC = () => {
               <Text size="small" textAlign="center">
                 Deposit <br />
                 (Near) <br />
-                {stats?.credit ? Number(stats?.credit).toFixed(3) : 0}
+                {stats?.credit ? toNumber(stats?.credit).toFixed(3) : 0}
               </Text>
             </Box>
             <Box width="40%">
               <GaugeChart
-                id="gauge-chart2"
+                id="borrow-gauge-chart"
                 nrOfLevels={22}
                 percent={getGaugeNumber()}
-                colors={['yellow', '#FFC371', 'red']}
+                colors={['#ffff00', '#FFC371', '#ff0000']}
                 arcWidth={0.22}
+                // Todo: find a fix for the SVG bug while animating
+                // animate={false}
               />
             </Box>
             <Box width="30%" alignContent="center">
               <Text size="small" textAlign="center">
                 Debt <br />
-                {stats?.debit ? Number(stats?.debit).toFixed(3) : 0}
+                {stats?.debit ? toNumber(stats?.debit).toFixed(3) : 0}
               </Text>
             </Box>
           </Box>
@@ -212,12 +216,8 @@ const Borrow: React.FC = () => {
             <SwapInput
               inputLabel={isWithdraw ? 'Withdraw' : 'Deposit'}
               outputLabel={isWithdraw ? 'Repay' : 'Borrow'}
-              value={
-                isWithdraw ? String(inputWithdrawAmount) : String(inputAmount)
-              }
-              outputValue={
-                isWithdraw ? String(outputWithdrawAmount) : String(outputAmount)
-              }
+              value={isWithdraw ? inputWithdrawAmount : inputAmount}
+              outputValue={isWithdraw ? outputWithdrawAmount : outputAmount}
               maxValue={currentBalance}
               onChange={isWithdraw ? setInputWithdrawAmount : setInputAmount}
               onChangeOutput={

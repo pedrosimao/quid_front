@@ -30,7 +30,7 @@ export const SwapInput: React.FC<t.SwapInputPropsType> = ({
   }
 
   const getOutputValue = () => {
-    if (isOutputUnlocked) return outputValue ? outputValue : undefined
+    if (isOutputUnlocked) return outputValue ? outputValue : ''
     return swapQuote && value ? String(Number(value) * swapQuote) : ''
   }
 
